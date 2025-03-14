@@ -1,32 +1,32 @@
 import os
-import pathlib
 from klepto.archives import dir_archive
 
 path = os.path.expanduser("~/Documents/projects/test_dir/")
 
-# for root, dirs, file in os.walk(path):
-#     print(root)
-#     print(dirs)
-#     print(file)
-
-
 data = {}
-def get_data_from_files(path):
+# Get all data from given directory
+def get_data_from_dir(path):
     for root, dirs, files in os.walk(path):
         for dir in dirs:
-            get_data_from_files(dir)
+            get_data_from_dir(os.path.join(root, dir))
 
         for file in files:
             name, ext = os.path.splitext(os.path.join(path, file))
-            print(name)
-            print(ext)
+            # TODO:
             # Add more file types
             if ext == '.py' or ext == '.txt' or ext == '.rs' or ext == '.c' or ext == '.lua':
-                # Do something with the file
-                data[file] = ''
+                # Calls file_extractor on each file
+                # And stores the file path and the data extracted in the dictionary
+                data[os.path.join(root, file)] = file_extractor(os.path.join(root, file))
 
-def file_extractor(file):
-    pass 
+def file_extractor(file_path):
+    # Get file content
+    with open(file_path, 'r') as f:
+        content = f.read()
+    return content
 
-get_data_from_files(path)
-print(data)
+
+get_data_from_dir(path)
+print(len(data))
+for key in data:
+    print(key)
