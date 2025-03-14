@@ -1,5 +1,4 @@
 import os
-import sys
 from klepto.archives import dir_archive
 
 path = os.path.expanduser("~/Documents/projects/test_dir/")
