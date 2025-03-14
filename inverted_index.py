@@ -1,6 +1,5 @@
 import os
 import datetime
-from typing import Dict
 from klepto.archives import dir_archive
 
 
