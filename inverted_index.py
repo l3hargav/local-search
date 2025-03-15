@@ -5,17 +5,17 @@ from klepto.archives import dir_archive
 
 # TODO:
 # Add more file types
-# Put in some kind of data structure like a set or list for storing file types
 
 # Get all data from given directory
 # Store extracted data for searching
 def get_data_from_dir(path: str) -> None:
     count = 0
     data = {}
+    extensions = {'.py', '.txt', '.c', '.lua', '.rs'}
     for root, dirs, files in os.walk(path):
         for file in files:
             name, ext = os.path.splitext(os.path.join(root, file))
-            if ext == '.py' or ext == '.txt' or ext == '.rs' or ext == '.c' or ext == '.lua':
+            if ext in extensions:
                 # Calls file_extractor on each file
                 # And stores the file path and the data extracted in the dictionary
                 data[os.path.join(root, file)] = file_extractor(os.path.join(root, file))
