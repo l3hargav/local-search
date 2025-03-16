@@ -29,7 +29,7 @@ def get_data_from_dir(path: str) -> None:
         ct = datetime.datetime.now()
         f.write(f"{ct}: Read {count} files\n")
     data_archive = dir_archive("data_store", data, serialized=True, cached=False, compression=2)
-    # print(data_archive['1'])
+    # print(data_archive)
 
 # Get file content
 def file_extractor(file_path: str) -> str:
@@ -42,12 +42,16 @@ def file_extractor(file_path: str) -> str:
             return f'Error occured in reading {file_path}: Check logs'
     return content
 
-# def search(words: str = ''):
-#     data = dir_archive("data_store", {}, serialized=True)
-#     data.load()
-#     print(data)
+def search(words: str = ''):
+    # TODO:
+    data = dir_archive("data_store", {}, compression=2, serialized=True)
+    data.load()
+    pass
+    # print(data)
+
+
 
 if __name__ == "__main__":
     path = os.path.expanduser("~/Documents/projects/test_dir/")
     get_data_from_dir(path)
-    # search()
+    search()
