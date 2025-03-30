@@ -42,16 +42,30 @@ def file_extractor(file_path: str) -> str:
             return f'Error occured in reading {file_path}: Check logs'
     return content
 
+# Print the stored data archive
+# Defaults to the first entry
+def print_arch(index: int = 1):
+    data = dir_archive("data_store", {}, compression=2, serialized=True)
+    data.load()
+    print("---------------------------------------")
+    print("Total number of files in the archive: ", data.__len__())
+    print("---------------------------------------")
+    # print(data)
+    print(data.get(str(index)))
+
 def search(words: str = ''):
     # TODO:
     data = dir_archive("data_store", {}, compression=2, serialized=True)
     data.load()
-    pass
+    # print(data.__len__())
     # print(data)
+    # print(data.get('1'))
+    # inp = input("Enter search term... : ")
 
 
 
 if __name__ == "__main__":
     path = os.path.expanduser("~/Documents/projects/test_dir/")
     get_data_from_dir(path)
-    search()
+    # search()
+    print_arch()
