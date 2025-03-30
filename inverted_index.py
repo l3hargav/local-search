@@ -13,17 +13,17 @@ from klepto.archives import dir_archive
 def get_data_from_dir(path: str) -> None:
     count = 0
     data = {}
-    extensions = {'.py', '.txt', '.c', '.lua', '.rs'}
+    code_extensions = {'.py', '.c', '.lua', '.rs'}
+    file_extensions = {'.txt'}
+
     for root, dirs, files in os.walk(path):
         for file in files:
             name, ext = os.path.splitext(os.path.join(root, file))
-            if ext in extensions:
+            if ext in code_extensions or ext in file_extensions:
                 # Calls file_extractor on each file
                 # And stores the file path and the data extracted in the dictionary
                 data[str(count+1)] = {"path": os.path.join(root, file), "content": file_extractor(os.path.join(root, file))}
                 count += 1
-    # for key in data:
-    #     print(key, ":", data[key]["content"][:10])
 
     with open("logs.txt", 'a') as f:
         ct = datetime.datetime.now()
@@ -44,28 +44,38 @@ def file_extractor(file_path: str) -> str:
 
 # Print the stored data archive
 # Defaults to the first entry
-def print_arch(index: int = 1):
+def print_arch(index: int = 1) -> None:
     data = dir_archive("data_store", {}, compression=2, serialized=True)
     data.load()
     print("---------------------------------------")
     print("Total number of files in the archive: ", data.__len__())
     print("---------------------------------------")
     # print(data)
-    print(data.get(str(index)))
+    for i in range(1, data.__len__()+1):
+        print(i)
+        print(data.get(str(i))['content'])
+    with open('logs.txt', 'r') as f:
+            content = f.read()
 
-def search(words: str = ''):
-    # TODO:
+
+# TODO:
+# Search for an input word in the archive
+# -- Fuzzy search
+def search(query: str = ''):
     data = dir_archive("data_store", {}, compression=2, serialized=True)
     data.load()
-    # print(data.__len__())
-    # print(data)
-    # print(data.get('1'))
-    # inp = input("Enter search term... : ")
+    choices = []
+    for i in range(1, data.__len__()+1):
+        choices.append(data.get(str(i))['content'])
 
+    # print(choices)
+    # print(len(choices))
+    outputs = process.extract(query, choices)
+    print(outputs[0])
 
 
 if __name__ == "__main__":
     path = os.path.expanduser("~/Documents/projects/test_dir/")
     get_data_from_dir(path)
-    # search()
-    print_arch()
+    # print_arch()
+    search('import os')
