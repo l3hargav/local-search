@@ -62,6 +62,4 @@ def print_arch(index: int = 1) -> None:
 if __name__ == "__main__":
     path = os.path.expanduser("~/Documents/projects/test_dir/")
     get_data_from_dir(path)
-    # print_arch()
-    query = input("Enter search term: ")
     print_arch()
