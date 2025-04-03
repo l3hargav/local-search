@@ -1,7 +1,8 @@
 import os
 import datetime
-from thefuzz import fuzz
-from thefuzz import process
+# from thefuzz import fuzz
+# from thefuzz import process
+from rapidfuzz import process
 from klepto.archives import dir_archive
 
 
@@ -58,24 +59,9 @@ def print_arch(index: int = 1) -> None:
             content = f.read()
 
 
-# TODO:
-# Search for an input word in the archive
-# -- Fuzzy search
-def search(query: str = ''):
-    data = dir_archive("data_store", {}, compression=2, serialized=True)
-    data.load()
-    choices = []
-    for i in range(1, data.__len__()+1):
-        choices.append(data.get(str(i))['content'])
-
-    # print(choices)
-    # print(len(choices))
-    outputs = process.extract(query, choices)
-    print(outputs[0])
-
-
 if __name__ == "__main__":
     path = os.path.expanduser("~/Documents/projects/test_dir/")
     get_data_from_dir(path)
     # print_arch()
-    search('import os')
+    query = input("Enter search term: ")
+    print_arch()
